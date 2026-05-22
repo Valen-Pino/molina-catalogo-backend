@@ -1,5 +1,6 @@
 package com.molina.domain.catalogo.rest;
 
+import com.molina.domain.catalogo.dto.ProductoDTO;
 import com.molina.domain.catalogo.entity.Producto;
 import com.molina.domain.catalogo.service.CatalogoService;
 import jakarta.inject.Inject;
@@ -18,13 +19,13 @@ public class CatalogoResource {
     CatalogoService catalogoService;
 
     @GET
-    public List<Producto> listarProductos() {
-        return catalogoService.obtenerTodos();
+    public List<ProductoDTO> listarProductos(@QueryParam("listado") String listado) {
+        return catalogoService.obtenerProductosPorListado(listado);
     }
 
     @POST
-    public Response crear(Producto producto) {
-        Producto productoCreado = catalogoService.crearProducto(producto);
+    public Response crearProducto(ProductoDTO dto) {
+        Producto productoCreado = catalogoService.crearProducto(dto);
         return Response.status(Response.Status.CREATED).entity(productoCreado).build();
     }
 
