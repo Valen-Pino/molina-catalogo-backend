@@ -27,8 +27,8 @@ public class Producto extends PanacheEntityBase {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "listado", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "listado_id")
     private Listado listado;
 
     public Long getId() {

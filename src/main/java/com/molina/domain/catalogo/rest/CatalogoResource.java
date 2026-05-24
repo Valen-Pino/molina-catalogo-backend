@@ -1,6 +1,8 @@
 package com.molina.domain.catalogo.rest;
 
 import com.molina.domain.catalogo.dto.ProductoDTO;
+import com.molina.domain.catalogo.entity.Categoria;
+import com.molina.domain.catalogo.entity.Listado;
 import com.molina.domain.catalogo.entity.Producto;
 import com.molina.domain.catalogo.service.CatalogoService;
 import jakarta.inject.Inject;
@@ -19,14 +21,47 @@ public class CatalogoResource {
     CatalogoService catalogoService;
 
     @GET
-    public List<ProductoDTO> listarProductos(@QueryParam("listado") String listado) {
-        return catalogoService.obtenerProductosPorListado(listado);
+    public List<ProductoDTO> listarProductos() {
+        return catalogoService.listarProductos();
     }
 
     @POST
     public Response crearProducto(ProductoDTO dto) {
         Producto productoCreado = catalogoService.crearProducto(dto);
         return Response.status(Response.Status.CREATED).entity(productoCreado).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response actualizarProducto(@PathParam("id") Long id, ProductoDTO dto) {
+        try {
+            Producto productoActualizado = catalogoService.actualizarProducto(id, dto);
+            return Response.ok(productoActualizado).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response eliminarProducto(@PathParam("id") Long id) {
+        boolean eliminado = catalogoService.eliminarProducto(id);
+        if (eliminado) {
+            return Response.noContent().build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("/categorias")
+    public List<Categoria> obtenerCategorias() {
+        return Categoria.listAll();
+    }
+
+    @GET
+    @Path("/listados")
+    public List<Listado> obtenerListados() {
+        return Listado.listAll();
     }
 
 }
