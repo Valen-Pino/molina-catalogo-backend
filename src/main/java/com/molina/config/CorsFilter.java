@@ -1,4 +1,4 @@
-package com.molina.domain.catalogo.rest;
+package com.molina.config;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
