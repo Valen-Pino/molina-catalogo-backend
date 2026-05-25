@@ -5,6 +5,7 @@ import com.molina.domain.catalogo.entity.Categoria;
 import com.molina.domain.catalogo.entity.Listado;
 import com.molina.domain.catalogo.entity.Producto;
 import com.molina.domain.catalogo.service.CatalogoService;
+import io.quarkus.panache.common.Sort;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -61,13 +62,13 @@ public class CatalogoResource {
     @GET
     @Path("/categorias")
     public List<Categoria> obtenerCategorias() {
-        return Categoria.listAll();
+        return Categoria.listAll(Sort.by("id"));
     }
 
     @GET
     @Path("/listados")
     public List<Listado> obtenerListados() {
-        return Listado.listAll();
+        return Listado.listAll(Sort.by("id"));
     }
 
 }
